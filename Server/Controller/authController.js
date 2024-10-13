@@ -71,10 +71,12 @@ exports.login = asyncErrorHandler(async (req,res,next)=>{
 
 exports.protect = asyncErrorHandler(async (req,res,next)=>{
 
+
     // 1) check if token exist?
 
 
     const testToken = req.headers.authorization;
+    console.log(testToken)
     let token;
     if(testToken && testToken.startsWith('bearer')){
         token = testToken.split(' ')[1]
