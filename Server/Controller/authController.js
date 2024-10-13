@@ -141,28 +141,31 @@ exports.restrict = (role)=>{
 
 
 
-// // forgot password middleware
+// forgot password middleware
 
-// exports.forgotPassword = asyncErrorHandler( async(req,res,next)=>{
+exports.forgotPassword = asyncErrorHandler( async(req,res,next)=>{
 
-//     //1. get user according to email
-//     const user = await User.findOne({email: req.body.email})
+    //1. get user according to email
+    const user = await User.findOne({email: req.body.email})
     
-//     if(!user){
-//         const error = new customError("We couldn't find the user with given email",404)
-//         next(error)
-//     }
+    if(!user){
+        const error = new customError("We couldn't find the user with given email",404)
+        next(error)
+    }
 
 
-//     //2. GENERATE A RANDOM RESET TOKEN
+    //2. GENERATE A RANDOM RESET TOKEN
+    const resetToken = user.createResetPasswordToken();
+    
+    await user.save({validateBeforeSave: false});
 
+
+    //3. SEND THE TOKEN BACK TO THE USER EMAIL
     
 
-
-//     //3. SEND THE TOKEN BACK TO THE USER EMAIL
-// })
+})
 
 
-// exports.resetPassword = (req,res,next)=>{
+exports.resetPassword = (req,res,next)=>{
 
-// }
+}

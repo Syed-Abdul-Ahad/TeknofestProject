@@ -8,13 +8,13 @@ const crypto = require('crypto')
 
 
 
-mongoose.connect(process.env.CONN_STRING)
-  .then(() => {
-    console.log("DB connection successful");
-  })
-  .catch((err) => {
-    console.error("DB connection error:", err);
-  });
+// mongoose.connect(process.env.CONN_STRING)
+//   .then(() => {
+//     console.log("DB connection successful");
+//   })
+//   .catch((err) => {
+//     console.error("DB connection error:", err);
+//   });
 
 
 
@@ -92,9 +92,11 @@ userSchema.methods.isPasswordChanged = async function(jwtTimeStamp){
 
 
 userSchema.methods.createResetPasswordToken = function(){
-    const resetToken = crypto.randomBytes(32,this.toString('hex'));
+    const resetToken = crypto.randomBytes(32).toString('hex');
     this.passwordResetToken =  crypto.createHash('sha256').update(resetToken).digest('hex')
     this.passwordResetTokenExpires = Date.now() + (10*60+1000);
+
+    console.log(resetToken, this.passwordResetToken)
 
     return resetToken;
 }
