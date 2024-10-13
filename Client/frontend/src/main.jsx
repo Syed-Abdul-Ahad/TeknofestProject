@@ -10,6 +10,7 @@ import Login from "./pages/Login/Login.jsx";
 import Feedback from "./pages/Feedback/Feedback.jsx";
 import Signup from "./pages/Signup/Signup.jsx";
 import "./App.css";
+import Competition from "./pages/Competitions/Competition.jsx";
 
 const router = createBrowserRouter([
   {
@@ -39,8 +40,19 @@ const router = createBrowserRouter([
       },
 
       {
-        path: ".feedback",
+        path: "/competitions",
+        element: <Competition />,
+      },
+      {
+        path: "/competitions/:id",
+        element: <SingleCompetition />,
+      },
+      {
+        path: "/feedback",
         element: <Feedback />,
+      },
+      {
+        path: "",
       },
     ],
   },
