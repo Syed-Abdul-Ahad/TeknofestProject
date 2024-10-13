@@ -8,13 +8,13 @@ const crypto = require('crypto')
 
 
 
-// mongoose.connect(process.env.CONN_STRING)
-//   .then(() => {
-//     console.log("DB connection successful");
-//   })
-//   .catch((err) => {
-//     console.error("DB connection error:", err);
-//   });
+mongoose.connect(process.env.CONN_STRING)
+  .then(() => {
+    console.log("DB connection successful");
+  })
+  .catch((err) => {
+    console.error("DB connection error:", err);
+  });
 
 
 
