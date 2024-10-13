@@ -1,7 +1,12 @@
 import React from "react";
+import SignupComponent from "../../components/SignupComponent";
 
 const Signup = () => {
-  return <div>Signup</div>;
+  return (
+    <>
+      <SignupComponent />
+    </>
+  );
 };
 
 export default Signup;

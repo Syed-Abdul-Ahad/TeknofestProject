@@ -1,7 +1,8 @@
 import React from "react";
+import HomeComponent from "../../components/HomeCompent";
 
 const Home = () => {
-  return <div>Home</div>;
+  <HomeComponent />;
 };
 
 export default Home;

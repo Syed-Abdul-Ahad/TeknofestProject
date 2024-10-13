@@ -6,7 +6,6 @@ const util = require('util')
 const env = require('dotenv')
 env.config({path:'./config.env'})
 
-// function for token
 
 const signToken = (ID)=>{
     return jwt.sign({id: ID},process.env.SECRET_STR,{
@@ -16,51 +15,50 @@ const signToken = (ID)=>{
 
 
 
-exports.signup = asyncErrorHandler(async (req,res,next)=>{
-    const newUser = await User.create(req.body)
+exports.signup = asyncErrorHandler(async (req, res, next) => {
+  const newUser = await User.create(req.body);
 
-    const token = signToken(newUser._id)
+  const token = signToken(newUser._id);
 
-    res.status(201).json({
-        status:"success",
-        token,
-        data:{
-            user:newUser
-        }
-    })
-})
+  res.status(201).json({
+    status: "success",
+    token,
+    data: {
+      user: newUser,
+    },
+  });
+});
 
+exports.login = asyncErrorHandler(async (req, res, next) => {
+  const email = req.body.email;
+  const password = req.body.password;
 
+  if (!email || !password) {
+    const error = new customError(
+      "Please provide emailID and Password for login",
+      400
+    );
+    return next(error);
+  }
 
-exports.login = asyncErrorHandler(async (req,res,next)=>{
-    const email = req.body.email;
-    const password = req.body.password;
+  const user = await User.findOne({ email: email }).select("+password");
 
-    if(!email || !password){
-        const error = new customError('Please provide emailID and Password for login',400)
-        return next(error)
-    }
-    
+  const isMatch = await user.comparePasswordInDB(password, user.password);
+  console.log(user.email);
 
+  if (!user || !isMatch) {
+    const error = new customError("Incorrect email or password", 400);
+    return next(error);
+  }
 
-    const user =  await User.findOne({email: email}).select('+password');
-    
-    const isMatch =  await user.comparePasswordInDB(password,user.password);
-    console.log(user.email)
-    
-    if(!user || !isMatch){
-        const error = new customError('Incorrect email or password',400)
-        return next(error)
-    }
+  const token = signToken(user._id);
 
-    const token = signToken(user._id)
-
-    res.status(200).json({
-        status:"success",
-        token,
-        user
-    })
-})
+  res.status(200).json({
+    status: "success",
+    token,
+    user,
+  });
+});
 
 
 
